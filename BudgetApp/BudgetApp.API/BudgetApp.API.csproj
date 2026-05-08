@@ -14,4 +14,8 @@
     <ProjectReference Include="..\BudgetApp.Application\BudgetApp.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>
