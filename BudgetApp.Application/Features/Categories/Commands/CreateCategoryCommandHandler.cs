@@ -17,7 +17,7 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
     public async Task<CategoryDto> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = new Category
-        {
+         {
             Id = Guid.NewGuid(),
             BudgetId = request.BudgetId,
             Name = request.Name,
