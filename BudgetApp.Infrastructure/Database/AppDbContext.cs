@@ -34,6 +34,23 @@ public class AppDbContext : DbContext
             .WithMany(c => c.Transactions)
             .HasForeignKey(t => t.CategoryId);
 
-       
-     }
+        
+        
+        // Decimal precision
+        modelBuilder.Entity<Budget>()
+            .Property(b => b.TotalAmount)
+            .HasPrecision(18, 2);
+
+        modelBuilder.Entity<Category>()
+            .Property(c => c.AllocatedAmount)
+            .HasPrecision(18, 2);
+
+        modelBuilder.Entity<Category>()
+            .Property(c => c.CurrentBalance)
+            .HasPrecision(18, 2);
+
+        modelBuilder.Entity<Transaction>()
+            .Property(t => t.Amount)
+            .HasPrecision(18, 2);
+    }
 }
