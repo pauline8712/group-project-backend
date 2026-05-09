@@ -3,6 +3,7 @@ using BudgetApp.Application.Features.Categories.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace BudgetApp.API.Controllers;
 
 [ApiController]
@@ -31,5 +32,24 @@ public class CategoryController : ControllerBase
             // Logga felet här
             return StatusCode(500, ex.Message);
         }
+
+        // Hämtar en specifik kategori baserat på Id
+        // Returnerar 404 om kategorin inte hittas
+        [HttpGet("single/{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            try
+            {
+                var result = await _mediator.Send(new GetCategoryByIdQuery { Id = id });
+                if (result == null)
+                    return NotFound($"Category with id {id} not found");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 }
