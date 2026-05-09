@@ -13,8 +13,23 @@ public class CategoryController : ControllerBase
     // MediatR injiceras via konstruktorn — används för att skicka Commands och Queries
     private readonly IMediator _mediator;
 
-    public  CategoryController (IMediator mediator)
+    public CategoryController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+    [HttpGet("{budgetId}")]
+    public async Task<IActionResult> GetAll(Guid budgetId)
+    {
+        try
+        {
+            var result = await _mediator.Send(new GetCategoriesQuery { BudgetId = budgetId });
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            // Logga felet här
+            return StatusCode(500, ex.Message);
+        }
     }
 }
