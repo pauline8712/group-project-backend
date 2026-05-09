@@ -16,8 +16,4 @@
     <ProjectReference Include="..\BudgetApp.Domain\BudgetApp.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Categories\Commands\" />
-  </ItemGroup>
-
 </Project>
