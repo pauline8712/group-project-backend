@@ -35,5 +35,5 @@ public class AppDbContext : DbContext
             .HasForeignKey(t => t.CategoryId);
 
        
-    }
+     }
 }
