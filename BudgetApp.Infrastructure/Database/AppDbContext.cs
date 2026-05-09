@@ -1,0 +1,39 @@
+﻿using BudgetApp.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace BudgetApp.Infrastructure.Database;
+
+public class AppDbContext : DbContext
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+    }
+
+    public DbSet<User> Users { get; set; }
+    public DbSet<Budget> Budgets { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Transaction> Transactions { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // User → Budget (1 till 1)
+        modelBuilder.Entity<Budget>()
+            .HasOne(b => b.User)
+            .WithOne(u => u.Budget)
+            .HasForeignKey<Budget>(b => b.UserId);
+
+        // Budget → Categories (1 till N)
+        modelBuilder.Entity<Category>()
+            .HasOne(c => c.Budget)
+            .WithMany(b => b.Categories)
+            .HasForeignKey(c => c.BudgetId);
+
+        // Category → Transactions (1 till N)
+        modelBuilder.Entity<Transaction>()
+            .HasOne(t => t.Category)
+            .WithMany(c => c.Transactions)
+            .HasForeignKey(t => t.CategoryId);
+
+       
+    }
+}
