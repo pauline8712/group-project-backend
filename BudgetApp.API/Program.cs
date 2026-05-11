@@ -18,6 +18,20 @@ namespace BudgetApp.API
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication();
 
+            // CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy.WithOrigins(
+                        "http://localhost:5173",
+                        "http://localhost:5174"
+                    )
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -31,6 +45,7 @@ namespace BudgetApp.API
 
             app.UseAuthorization();
 
+            app.UseCors("AllowFrontend");
 
             app.MapControllers();
 
