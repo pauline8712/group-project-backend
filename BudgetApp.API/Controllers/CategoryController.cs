@@ -19,7 +19,7 @@ public class CategoryController : ControllerBase
         _mediator = mediator;
     }
 
-
+    //Hämtar alla kategorier för ett specifikt budget
     [HttpGet("{budgetId}")]
     public async Task<IActionResult> GetAll(Guid budgetId)
     {
