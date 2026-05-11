@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BudgetApp.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/categories")]
 
 public class CategoryController : ControllerBase
 {
