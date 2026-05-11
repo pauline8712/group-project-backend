@@ -1,4 +1,5 @@
 using BudgetApp.Infrastructure;
+using BudgetApp.Application;
 
 namespace BudgetApp.API
 {
@@ -15,6 +16,7 @@ namespace BudgetApp.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddApplication();
 
             var app = builder.Build();
 
