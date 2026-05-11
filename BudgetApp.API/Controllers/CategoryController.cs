@@ -19,6 +19,8 @@ public class CategoryController : ControllerBase
         _mediator = mediator;
     }
 
+    // MediatR injiceras via konstruktorn — används för att skicka Commands och Queries
+
     [HttpGet("{budgetId}")]
     public async Task<IActionResult> GetAll(Guid budgetId)
     {
@@ -51,6 +53,8 @@ public class CategoryController : ControllerBase
         }
     }
 
+    // Skapar en ny kategori
+    // Returnerar 201 Created med den skapade kategorin
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateCategoryCommand command)
     {
@@ -65,6 +69,9 @@ public class CategoryController : ControllerBase
         }
     }
 
+
+    // Uppdaterar en befintlig kategori
+    // Returnerar 404 om kategorin inte hittas
     [HttpPut("id")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryCommand command)
     {
@@ -73,6 +80,28 @@ public class CategoryController : ControllerBase
             command.Id = id;
             var result = await _mediator.Send(command);
             return Ok(result);
+        }
+
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    // Tar bort en kategori baserat på Id
+    // Returnerar 204 No Content om borttagningen lyckades
+    // Returnerar 404 om kategorin inte hittas
+    [HttpDelete("id")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        try
+        {
+            var result = await _mediator.Send(new DeleteCategoryCommand { Id = id });
+            if (!result)
+                return NotFound($"Category with id {id} not found");
+            return NoContent();
+
+
         }
 
         catch (Exception ex)
