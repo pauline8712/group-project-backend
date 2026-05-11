@@ -32,24 +32,52 @@ public class CategoryController : ControllerBase
             // Logga felet här
             return StatusCode(500, ex.Message);
         }
-
-        // Hämtar en specifik kategori baserat på Id
-        // Returnerar 404 om kategorin inte hittas
-        [HttpGet("single/{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+    }
+    // Hämtar en specifik kategori baserat på Id
+    // Returnerar 404 om kategorin inte hittas
+    [HttpGet("single/{id}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        try
         {
-            try
-            {
-                var result = await _mediator.Send(new GetCategoryByIdQuery { Id = id });
-                if (result == null)
-                    return NotFound($"Category with id {id} not found");
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            var result = await _mediator.Send(new GetCategoryByIdQuery { Id = id });
+            if (result == null)
+                return NotFound($"Category with id {id} not found");
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateCategoryCommand command)
+    {
+        try
+        {
+            var result = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpPut("id")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryCommand command)
+    {
+        try
+        {
+            command.Id = id;
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
 
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
 }
