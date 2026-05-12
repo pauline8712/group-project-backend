@@ -15,4 +15,12 @@ public class BudgetRepository : IBudgetRepository
     {
         _context = context;
     }
+
+    // Hämtar alla budgetar för en specifik användare
+    public async Task<List<Budget>> GetAllAsync(Guid userId)
+    {
+        return await _context.Budgets
+            .Where(b => b.UserId == userId)
+            .ToListAsync();
+    }
 }
