@@ -47,4 +47,17 @@ public class BudgetRepository : IBudgetRepository
         return budget;
     }
 
+    // Tar bort en budget baserat på Id
+    public async Task DeleteAsync(Guid id)
+    {
+        var budget = await _context.Budgets
+            .FirstOrDefaultAsync(b => b.Id == id);
+
+        if (budget != null)
+        {
+            _context.Budgets.Remove(budget);
+            await _context.SaveChangesAsync();
+        }
+    }
+
 }
