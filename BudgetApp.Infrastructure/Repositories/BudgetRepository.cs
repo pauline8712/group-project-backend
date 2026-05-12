@@ -23,4 +23,19 @@ public class BudgetRepository : IBudgetRepository
             .Where(b => b.UserId == userId)
             .ToListAsync();
     }
+
+    // Hämtar en specifik budget baserat på Id
+    public async Task<Budget?> GetByIdAsync(Guid id)
+    {
+        return await _context.Budgets
+            .FirstOrDefaultAsync(b => b.Id == id);
+    }
+
+    // Skapar en ny budget i databasen
+    public async Task<Budget> AddAsync(Budget budget)
+    {
+        _context.Budgets.Add(budget);
+        await _context.SaveChangesAsync();
+        return budget;
+    }
 }
