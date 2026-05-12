@@ -35,6 +35,14 @@ public class UserRepository : IUserRepository
         return user;
     }
 
+    // Uppdaterar en befintlig användare
+    public async Task<User> UpdateAsync(User user)
+    {
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+        return user;
+    }
+
 
 
 }
