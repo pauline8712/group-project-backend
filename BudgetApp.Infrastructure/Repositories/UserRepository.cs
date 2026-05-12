@@ -14,4 +14,11 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
+    // Hämtar alla användare
+    public async Task<List<User>> GetAllAsync()
+    {
+        return await _context.Users.ToListAsync();
+    }
+
+
 }
