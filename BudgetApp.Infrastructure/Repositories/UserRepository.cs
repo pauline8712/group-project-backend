@@ -43,6 +43,19 @@ public class UserRepository : IUserRepository
         return user;
     }
 
+    // Tar bort en användare baserat på Id
+    public async Task DeleteAsync(Guid id)
+    {
+        var user = await _context.Users
+            .FirstOrDefaultAsync(u => u.Id == id);
+
+        if (user != null)
+        {
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+        }
+    }
+
 
 
 }
