@@ -12,4 +12,18 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, bool>
     {
         _userRepository = userRepository;
     }
+
+    public async Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+    {
+        // Hämtar användaren från databasen
+        var user = await _userRepository.GetByIdAsync(request.Id);
+
+        // Returnerar false om användaren inte hittas
+        if (user == null)
+            return false;
+
+        // Tar bort användaren från databasen via repository
+        await _userRepository.DeleteAsync(request.Id);
+        return true;
+    }
 }
