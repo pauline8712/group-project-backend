@@ -16,4 +16,35 @@ public class CreateBudgetCommandHandler : IRequestHandler<CreateBudgetCommand, B
         _budgetRepository = budgetRepository;
     }
 
+
+    public async Task<BudgetDto> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
+    {
+        // Skapar ett nytt Budget-objekt från command-datan
+        var budget = new Budget
+        {
+            Id = Guid.NewGuid(),
+            UserId = request.UserId,
+            Name = request.Name,
+            Month = request.Month,
+            Year = request.Year,
+            TotalAmount = request.TotalAmount,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        // Sparar budgeten i databasen via repository
+        var created = await _budgetRepository.AddAsync(budget);
+
+        // Returnerar en DTO med budgetdata
+        return new BudgetDto
+        {
+            Id = created.Id,
+            UserId = created.UserId,
+            Name = created.Name,
+            Month = created.Month,
+            Year = created.Year,
+            TotalAmount = created.TotalAmount,
+            CreatedAt = created.CreatedAt
+        };
+    }
+
 }
