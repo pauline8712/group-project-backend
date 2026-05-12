@@ -13,4 +13,24 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDto
     {
         _userRepository = userRepository;
     }
+
+
+    public async Task<UserDto?> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+    {
+        // Hämtar användaren från databasen via repository
+        var user = await _userRepository.GetByIdAsync(request.Id);
+
+        // Returnerar null om användaren inte hittas
+        if (user == null)
+            return null;
+
+        // Returnerar en DTO med användardata — aldrig PasswordHash
+        return new UserDto
+        {
+            Id = user.Id,
+            Email = user.Email,
+            Role = user.Role,
+            CreatedAt = user.CreatedAt
+        };
+    }
 }
