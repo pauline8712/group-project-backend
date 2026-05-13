@@ -16,4 +16,18 @@ public class BudgetsController : ControllerBase
     {
         _mediator = mediator;
     }
+
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetAll(Guid userId)
+    {
+        try
+        {
+            var result = await _mediator.Send(new GetAllBudgetsQuery { UserId = userId });
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }
