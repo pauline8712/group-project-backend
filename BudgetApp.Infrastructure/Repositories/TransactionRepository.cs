@@ -13,4 +13,43 @@ public class TransactionRepository : ITransactionRepository
     {
         _context = context;
     }
+
+    public async Task<List<Transaction>> GetAllByCategoryIdAsync(Guid categoryId)
+    {
+        return await _context.Transactions
+            .Where(t => t.CategoryId == categoryId)
+            .ToListAsync();
+    }
+
+    public async Task<Transaction?> GetByIdAsync(Guid id)
+    {
+        return await _context.Transactions
+            .FirstOrDefaultAsync(t => t.Id == id);
+    }
+
+    public async Task<Transaction> AddAsync(Transaction transaction)
+    {
+        _context.Transactions.Add(transaction);
+        await _context.SaveChangesAsync();
+        return transaction;
+    }
+
+    public async Task<Transaction> UpdateAsync(Transaction transaction)
+    {
+        _context.Transactions.Update(transaction);
+        await _context.SaveChangesAsync();
+        return transaction;
+    }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var transaction = await _context.Transactions
+            .FirstOrDefaultAsync(t => t.Id == id);
+
+        if (transaction != null)
+        {
+            _context.Transactions.Remove(transaction);
+            await _context.SaveChangesAsync();
+        }
+    }
 }
