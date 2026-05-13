@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BudgetApp.Application.Interfaces;
+using BudgetApp.Domain.Entities;
+using BudgetApp.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
-namespace BudgetApp.Infrastructure.Repositories
+namespace BudgetApp.Infrastructure.Repositories;
+
+public class TransactionRepository : ITransactionRepository
 {
-    internal class TransactionRepository
+    private readonly AppDbContext _context;
+
+    public TransactionRepository(AppDbContext context)
     {
+        _context = context;
     }
 }
