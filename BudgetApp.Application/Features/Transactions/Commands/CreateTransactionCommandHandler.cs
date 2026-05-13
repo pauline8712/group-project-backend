@@ -13,4 +13,29 @@ public class CreateTransactionCommandHandler : IRequestHandler<CreateTransaction
     {
         _transactionRepository = transactionRepository;
     }
+
+    public async Task<TransactionDto> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
+    {
+        var transaction = new Transaction
+        {
+            Id = Guid.NewGuid(),
+            CategoryId = request.CategoryId,
+            Amount = request.Amount,
+            Type = request.Type,
+            Description = request.Description,
+            Date = request.Date
+        };
+
+        var created = await _transactionRepository.AddAsync(transaction);
+
+        return new TransactionDto
+        {
+            Id = created.Id,
+            CategoryId = created.CategoryId,
+            Amount = created.Amount,
+            Type = created.Type,
+            Description = created.Description,
+            Date = created.Date
+        };
+    }
 }
