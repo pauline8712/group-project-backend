@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
-namespace BudgetApp.Application.Features.Transactions.Commands
+namespace BudgetApp.Application.Features.Transactions.Commands;
+
+// Command för att ta bort en transaktion — skickas via MediatR
+public class DeleteTransactionCommand : IRequest<bool>
 {
-    internal class DeleteTransactionCommand
-    {
-    }
+    // Id på transaktionen som ska tas bort
+    public Guid Id { get; set; }
 }
