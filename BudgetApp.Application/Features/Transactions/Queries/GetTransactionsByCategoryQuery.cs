@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BudgetApp.Application.Features.Transactions.DTOs;
+using MediatR;
 
-namespace BudgetApp.Application.Features.Transactions.Queries
+namespace BudgetApp.Application.Features.Transactions.Queries;
+
+// Query för att hämta alla transaktioner för en specifik kategori — skickas via MediatR
+public class GetTransactionsByCategoryQuery : IRequest<List<TransactionDto>>
 {
-    internal class GetTransactionsByCategoryQuery
-    {
-    }
+    // Id på kategorin vars transaktioner ska hämtas
+    public Guid CategoryId { get; set; }
 }
