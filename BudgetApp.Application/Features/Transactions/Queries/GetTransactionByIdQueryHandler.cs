@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BudgetApp.Application.Features.Transactions.DTOs;
+using BudgetApp.Application.Interfaces;
+using MediatR;
 
-namespace BudgetApp.Application.Features.Transactions.Queries
+namespace BudgetApp.Application.Features.Transactions.Queries;
+
+// Hanterar GetTransactionByIdQuery — hämtar en specifik transaktion från databasen
+public class GetTransactionByIdQueryHandler : IRequestHandler<GetTransactionByIdQuery, TransactionDto?>
 {
-    internal class GetTransactionByIdQueryHandler
+    private readonly ITransactionRepository _transactionRepository;
+
+    // ITransactionRepository injiceras via konstruktorn
+    public GetTransactionByIdQueryHandler(ITransactionRepository transactionRepository)
     {
+        _transactionRepository = transactionRepository;
     }
 }
