@@ -13,4 +13,19 @@ public class DeleteBudgetCommandHandler : IRequestHandler<DeleteBudgetCommand, b
     {
         _budgetRepository = budgetRepository;
     }
+
+
+    public async Task<bool> Handle(DeleteBudgetCommand request, CancellationToken cancellationToken)
+    {
+        // Hämtar budgeten från databasen
+        var budget = await _budgetRepository.GetByIdAsync(request.Id);
+
+        // Returnerar false om budgeten inte hittas
+        if (budget == null)
+            return false;
+
+        // Tar bort budgeten från databasen via repository
+        await _budgetRepository.DeleteAsync(request.Id);
+        return true;
+    }
 }
