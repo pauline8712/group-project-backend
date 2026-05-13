@@ -30,4 +30,22 @@ public class BudgetsController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    //Hämtar en specifik budget baserat på Id
+    //Returnerar 404 om budgeten inte hittas 
+    [HttpGet("single/{id}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        try
+        {
+            var result = await _mediator.Send(new GetBudgetByIdQuery { Id = id });
+            if (result == null)
+                return NotFound($"Budget with id {id} not found");
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }
