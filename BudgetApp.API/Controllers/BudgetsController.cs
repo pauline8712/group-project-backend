@@ -64,4 +64,23 @@ public class BudgetsController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    //Uppdaterar en befintligt budget
+    //Returnerar 404 om budgeten inte hittas
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateBudgetCommand command)
+    {
+        try
+        {
+            command.Id = id;
+            var result = await _mediator.Send(command);
+            if (result == null)
+                return NotFound($"Budget with id {id} not found");
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }
