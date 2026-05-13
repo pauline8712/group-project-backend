@@ -83,4 +83,23 @@ public class BudgetsController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    //Tar bort en budget baserat på Id
+    //Returnerar 404 om budgeten inte hittas
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        try
+        {
+            var result = await _mediator.Send(new DeleteBudgetCommand { Id = id });
+            if (!result)
+                return NotFound($"Budget with id {id} not found");
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }
