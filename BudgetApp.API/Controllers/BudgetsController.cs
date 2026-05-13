@@ -48,4 +48,20 @@ public class BudgetsController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    //Skapar en ny budget
+    //Returnerar 201 Created med den skapade budgeten
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateBudgetCommand command)
+    {
+        try
+        {
+            var result = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }
