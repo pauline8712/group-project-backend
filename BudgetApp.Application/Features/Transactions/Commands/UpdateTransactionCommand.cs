@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BudgetApp.Application.Features.Transactions.DTOs;
+using MediatR;
 
-namespace BudgetApp.Application.Features.Transactions.Commands
+namespace BudgetApp.Application.Features.Transactions.Commands;
+
+// Command för att uppdatera en befintlig transaktion — skickas via MediatR
+public class UpdateTransactionCommand : IRequest<TransactionDto>
 {
-    internal class UpdateTransactionCommand
-    {
-    }
+    // Id på transaktionen som ska uppdateras — sätts från URL-parametern i controllern
+    public Guid Id { get; set; }
+    public decimal Amount { get; set; }
+    public string Type { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public DateTime Date { get; set; }
 }
