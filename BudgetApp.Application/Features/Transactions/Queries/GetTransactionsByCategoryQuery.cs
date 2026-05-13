@@ -8,4 +8,4 @@ public class GetTransactionsByCategoryQuery : IRequest<List<TransactionDto>>
 {
     // Id på kategorin vars transaktioner ska hämtas
     public Guid CategoryId { get; set; }
-}
+} 
