@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BudgetApp.Application.Features.Transactions.DTOs;
+using MediatR;
 
-namespace BudgetApp.Application.Features.Transactions.Queries
+namespace BudgetApp.Application.Features.Transactions.Queries;
+
+// Query för att hämta en specifik transaktion baserat på Id — skickas via MediatR
+public class GetTransactionByIdQuery : IRequest<TransactionDto?>
 {
-    internal class GetTransactionByIdQuery
-    {
-    }
+    // Id på transaktionen som ska hämtas
+    public Guid Id { get; set; }
 }
