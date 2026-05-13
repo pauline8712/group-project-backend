@@ -26,6 +26,8 @@ public static class DependencyInjection
 
         services.AddScoped<IBudgetRepository, BudgetRepository>();
 
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
+
         return services;
     }
 }
