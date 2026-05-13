@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BudgetApp.Application.Features.Transactions.DTOs;
+using MediatR;
 
-namespace BudgetApp.Application.Features.Transactions.Commands
+namespace BudgetApp.Application.Features.Transactions.Commands;
+
+public class CreateTransactionCommand : IRequest<TransactionDto>
 {
-    internal class CreateTransactionCommand
-    {
-    }
+    public Guid CategoryId { get; set; }
+    public decimal Amount { get; set; }
+    public string Type { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public DateTime Date { get; set; }
 }
