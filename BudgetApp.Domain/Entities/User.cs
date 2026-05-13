@@ -14,6 +14,7 @@ namespace BudgetApp.Domain.Entities
         public string Role { get; set; } = "User"; // Default role is "User"
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public Budget? Budget { get; set; }
+        // En användare kan ha flera budgetar — en per månad och år
+        public ICollection<Budget> Budgets { get; set; } = new List<Budget>();
     }
 }

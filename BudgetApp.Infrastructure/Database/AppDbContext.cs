@@ -16,11 +16,11 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // User → Budget (1 till 1)
+        // User → Budget (1 till N) — en användare kan ha flera budgetar, en per månad och år
         modelBuilder.Entity<Budget>()
             .HasOne(b => b.User)
-            .WithOne(u => u.Budget)
-            .HasForeignKey<Budget>(b => b.UserId);
+            .WithMany(u => u.Budgets)
+            .HasForeignKey(b => b.UserId);
 
         // Budget → Categories (1 till N)
         modelBuilder.Entity<Category>()
