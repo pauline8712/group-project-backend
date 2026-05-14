@@ -1,4 +1,6 @@
-﻿namespace BudgetApp.Application.Features.Budgets.DTOs;
+﻿using System; 
+
+namespace BudgetApp.Application.Features.Budgets.DTOs;
 
 // DTO för budgetsammanfattning — returneras av GetBudgetSummaryQuery
 //DTO:n för summary. Det är den som definierar hur svaret ska se ut när frontend tar emot datan.
@@ -21,14 +23,3 @@ public class BudgetSummaryDto
     public decimal RemainingAmount { get; set; }
 }
 
-// DTO för kategorisammanfattning — ingår i BudgetSummaryDto
-public class CategorySummaryDto
-{
-    public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public decimal AllocatedAmount { get; set; }
-    public decimal CurrentBalance { get; set; }
-
-    // Hur mycket som är spenderat i kategorin
-    public decimal AmountSpent { get; set; }
-}
