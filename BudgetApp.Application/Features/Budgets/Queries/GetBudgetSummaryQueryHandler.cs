@@ -39,7 +39,10 @@ public class GetBudgetSummaryQueryHandler : IRequestHandler<GetBudgetSummaryQuer
             AllocatedAmount = c.AllocatedAmount,
             CurrentBalance = c.CurrentBalance,
             // Spenderat = AllocatedAmount minus CurrentBalance
-            AmountSpent = c.AllocatedAmount - c.CurrentBalance
+            AmountSpent = c.AllocatedAmount - c.CurrentBalance,
+            // Mappar vecko-inställningar
+            IsWeekly = c.IsWeekly,
+            WeeklyAmount = c.WeeklyAmount
         }).ToList();
 
         // Beräknar totalt spenderat — summan av alla kategoriers AmountSpent
