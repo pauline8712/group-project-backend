@@ -9,6 +9,7 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
 {
     private readonly ICategoryRepository _categoryRepository;
 
+    // ICategoryRepository injiceras via konstruktorn
     public CreateCategoryCommandHandler(ICategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;
@@ -21,13 +22,19 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
             Id = Guid.NewGuid(),
             BudgetId = request.BudgetId,
             Name = request.Name,
+
+            // CurrentBalance sätts till AllocatedAmount vid skapande
             AllocatedAmount = request.AllocatedAmount,
             CurrentBalance = request.AllocatedAmount,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            // Sparar vecko-inställningar från request
+            IsWeekly = request.IsWeekly,
+            WeeklyAmount = request.WeeklyAmount
         };
 
         var created = await _categoryRepository.AddAsync(category);
 
+        // Returnerar en DTO med den skapade kategorins data
         return new CategoryDto
         {
             Id = created.Id,
@@ -35,7 +42,10 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
             Name = created.Name,
             AllocatedAmount = created.AllocatedAmount,
             CurrentBalance = created.CurrentBalance,
-            CreatedAt = created.CreatedAt
+            CreatedAt = created.CreatedAt,
+             IsWeekly = created.IsWeekly,
+            WeeklyAmount = created.WeeklyAmount
+
         };
     }
 }
