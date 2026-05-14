@@ -102,4 +102,25 @@ public class TransactionsController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    // Hämtar alla transaktioner för en specifik kategori och vecka
+    // Används av frontend för att visa veckovy på statistiksidan
+    [HttpGet("byweek/{categoryId}/{year}/{weekNumber}")]
+    public async Task<IActionResult> GetByWeek(Guid categoryId, int year, int weekNumber)
+    {
+        try
+        {
+            var result = await _mediator.Send(new GetTransactionsByWeekQuery
+            {
+                CategoryId = categoryId,
+                Year = year,
+                WeekNumber = weekNumber
+            });
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }
