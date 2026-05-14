@@ -102,4 +102,22 @@ public class BudgetsController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    // Hämtar en budgetsammanfattning med kategorier och beräknade saldo
+    // Returnerar 404 om budgeten inte hittas
+    [HttpGet("summary/{budgetId}")]
+    public async Task<IActionResult> GetSummary(Guid budgetId)
+    {
+        try
+        {
+            var result = await _mediator.Send(new GetBudgetSummaryQuery { BudgetId = budgetId });
+            if (result == null)
+                return NotFound($"Budget with id {budgetId} not found");
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }
