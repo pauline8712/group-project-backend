@@ -49,6 +49,10 @@ public class AppDbContext : DbContext
             .Property(c => c.CurrentBalance)
             .HasPrecision(18, 2);
 
+        modelBuilder.Entity<Category>()
+            .Property(c => c.WeeklyAmount)
+            .HasPrecision(18, 2);
+
         modelBuilder.Entity<Transaction>()
             .Property(t => t.Amount)
             .HasPrecision(18, 2);
