@@ -121,6 +121,6 @@ public class TransactionsController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, ex.Message);
-        }
+         }
     }
 }
