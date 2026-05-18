@@ -5,51 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BudgetApp.Infrastructure.Repositories;
 
-public class TransactionRepository : ITransactionRepository
+// TransactionRepository ärver från BaseRepository — får GetByIdAsync, AddAsync, UpdateAsync, DeleteAsync gratis
+// Behåller sin egna GetAllByCategoryIdAsync eftersom transaktioner filtreras på CategoryId
+public class TransactionRepository : BaseRepository<Transaction>, ITransactionRepository
 {
-    private readonly AppDbContext _context;
-
-    public TransactionRepository(AppDbContext context)
+    public TransactionRepository(AppDbContext context) : base(context)
     {
-        _context = context;
     }
 
+    // Hämtar alla transaktioner för en specifik kategori
     public async Task<List<Transaction>> GetAllByCategoryIdAsync(Guid categoryId)
     {
         return await _context.Transactions
             .Where(t => t.CategoryId == categoryId)
             .ToListAsync();
-    }
-
-    public async Task<Transaction?> GetByIdAsync(Guid id)
-    {
-        return await _context.Transactions
-            .FirstOrDefaultAsync(t => t.Id == id);
-    }
-
-    public async Task<Transaction> AddAsync(Transaction transaction)
-    {
-        _context.Transactions.Add(transaction);
-        await _context.SaveChangesAsync();
-        return transaction;
-    }
-
-    public async Task<Transaction> UpdateAsync(Transaction transaction)
-    {
-        _context.Transactions.Update(transaction);
-        await _context.SaveChangesAsync();
-        return transaction;
-    }
-
-    public async Task DeleteAsync(Guid id)
-    {
-        var transaction = await _context.Transactions
-            .FirstOrDefaultAsync(t => t.Id == id);
-
-        if (transaction != null)
-        {
-            _context.Transactions.Remove(transaction);
-            await _context.SaveChangesAsync();
-        }
     }
 }
