@@ -5,15 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BudgetApp.Infrastructure.Repositories;
 
-// Implementerar IBudgetRepository — hanterar databasoperationer för Budget via EF Core
-public class BudgetRepository : IBudgetRepository
+// BudgetRepository ärver från BaseRepository — får GetByIdAsync, AddAsync, UpdateAsync, DeleteAsync gratis
+// Behåller sin egna GetAllAsync eftersom budgetar filtreras på UserId
+public class BudgetRepository : BaseRepository<Budget>, IBudgetRepository
 {
-    private readonly AppDbContext _context;
-
-    // AppDbContext injiceras via konstruktorn
-    public BudgetRepository(AppDbContext context)
+    public BudgetRepository(AppDbContext context) : base(context)
     {
-        _context = context;
     }
 
     // Hämtar alla budgetar för en specifik användare
@@ -23,41 +20,4 @@ public class BudgetRepository : IBudgetRepository
             .Where(b => b.UserId == userId)
             .ToListAsync();
     }
-
-    // Hämtar en specifik budget baserat på Id
-    public async Task<Budget?> GetByIdAsync(Guid id)
-    {
-        return await _context.Budgets
-            .FirstOrDefaultAsync(b => b.Id == id);
-    }
-
-    // Skapar en ny budget i databasen
-    public async Task<Budget> AddAsync(Budget budget)
-    {
-        _context.Budgets.Add(budget);
-        await _context.SaveChangesAsync();
-        return budget;
-    }
-
-    // Uppdaterar en befintlig budget i databasen
-    public async Task<Budget> UpdateAsync(Budget budget)
-    {
-        _context.Budgets.Update(budget);
-        await _context.SaveChangesAsync();
-        return budget;
-    }
-
-    // Tar bort en budget baserat på Id
-    public async Task DeleteAsync(Guid id)
-    {
-        var budget = await _context.Budgets
-            .FirstOrDefaultAsync(b => b.Id == id);
-
-        if (budget != null)
-        {
-            _context.Budgets.Remove(budget);
-            await _context.SaveChangesAsync();
-        }
-    }
-
 }
