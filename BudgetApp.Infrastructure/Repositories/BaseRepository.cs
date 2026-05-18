@@ -18,12 +18,6 @@ public class BaseRepository<T> : IRepository<T> where T : class
         _dbSet = context.Set<T>();
     }
 
-    // Hämtar alla entiteter från databasen
-    public async Task<List<T>> GetAllAsync()
-    {
-        return await _dbSet.ToListAsync();
-    }
-
     // Hämtar en specifik entitet baserat på Id
     public async Task<T?> GetByIdAsync(Guid id)
     {

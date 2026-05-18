@@ -1,12 +1,9 @@
 ﻿namespace BudgetApp.Application.Interfaces;
 
 // Generiskt repository-interface — bas för alla repositories i appen
-// Minskar kodupprepning genom att samla gemensamma CRUD-metoder på ett ställe
+// Innehåller gemensamma CRUD-metoder som är identiska i alla repositories
 public interface IRepository<T> where T : class
 {
-    // Hämtar alla entiteter
-    Task<List<T>> GetAllAsync();
-
     // Hämtar en specifik entitet baserat på Id
     Task<T?> GetByIdAsync(Guid id);
 
